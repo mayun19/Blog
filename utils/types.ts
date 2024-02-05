@@ -11,12 +11,24 @@ export type Post = {
   body: string;
 };
 
+export type PostProps = {
+  posts: Post[];
+};
+
+export type UsersProps = {
+  users: Users[];
+};
+
 export type Users = {
   id: number;
   name: string;
   email: string;
   gender: string;
   status: string;
+};
+
+export type TPostCardProps = {
+  post: Post;
 };
 
 export type PostDetailProps = {

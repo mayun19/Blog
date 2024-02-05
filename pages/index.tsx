@@ -1,10 +1,10 @@
 import { GetServerSideProps, NextPage } from "next";
-import { Post } from "@/utils/types";
+import { Post, PostProps } from "@/utils/types";
 import PostCard from "@/components/PostCard";
 import Layout from "@/components/Layout";
 import axios from "axios";
 
-const Home: NextPage = ({posts}: any) => {
+const Home = ({ posts }: PostProps) => {
   return (
     <Layout pageTitle="Home - All Blog">
       <main className="flex min-h-screen flex-col items-center justify-between lg:p-24 p-5">

@@ -1,8 +1,9 @@
 import { GetServerSideProps } from "next";
 import axios from "axios";
 import Layout from "@/components/Layout";
+import { PostDetailProps } from "@/utils/types";
 
-function DetailBlog({ post, comments }: any) {
+function DetailBlog({ post, comments }: PostDetailProps) {
   return (
     <Layout pageTitle={`${post.title}`}>
       <div className="flex min-h-screen flex-col items-center justify-between lg:p-24 px-6 py-5 gap-6 md:gap-12">

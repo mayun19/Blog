@@ -1,10 +1,8 @@
 import React from "react";
-import { Post } from "@/utils/types";
+import { Post, TPostCardProps } from "@/utils/types";
 import Link from "next/link";
 
-type TPostCardProps = {
-  post: Post;
-};
+
 
 const PostCard = ({ post }: TPostCardProps) => {
   return (

@@ -18,10 +18,10 @@ const Layout: React.FC<ChildProps> = ({ pageTitle, children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div>
+      <body>
         <Header />
         <div className="container-sm px-lg-0">{children}</div>
-      </div>
+      </body>
     </div>
   );
 };

@@ -3,8 +3,20 @@ import { Post, PostProps } from "@/utils/types";
 import PostCard from "@/components/PostCard";
 import Layout from "@/components/Layout";
 import axios from "axios";
+import { useEffect, useState } from "react";
 
-const Home = ({ posts }: PostProps) => {
+const Home = () => {
+  const [posts, setPosts] = useState<Post[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const fetchedPosts = await getPosts();
+      setPosts(fetchedPosts);
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <Layout pageTitle="Home - All Blog">
       <main className="flex min-h-screen flex-col items-center justify-between lg:p-24 p-5">
@@ -20,13 +32,12 @@ const Home = ({ posts }: PostProps) => {
 };
 export default Home;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get(`posts`);
-  const posts = response.data;
-
-  return {
-    props: {
-      posts,
-    },
-  };
-};
+export async function getPosts(): Promise<Post[]> {
+  try {
+    const response = await axios.get(`posts`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
+}

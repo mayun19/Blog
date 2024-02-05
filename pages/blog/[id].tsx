@@ -2,6 +2,8 @@ import { GetServerSideProps } from "next";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import { PostDetailProps } from "@/utils/types";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 function DetailBlog({ post, comments }: PostDetailProps) {
   return (
@@ -28,9 +30,7 @@ function DetailBlog({ post, comments }: PostDetailProps) {
             <div>
               {comments.map((comment: any, index: number) => (
                 <div key={index} className="border-b border-gray-100 mb-4 pb-4">
-                  <p className="mb-4">
-                    <span className="font-medium">{comment.name}</span>
-                  </p>
+                  <p className="mb-4 font-medium">{comment.name}</p>
                   <p className="whitespace-pre-line text-slate-500  w-full">
                     {comment.body}
                   </p>
@@ -47,17 +47,29 @@ function DetailBlog({ post, comments }: PostDetailProps) {
 export default DetailBlog;
 
 export const getServerSideProps: GetServerSideProps = async ({ query }) => {
-  const { id } = query;
-  const resPost = await axios.get(`posts/${id}`);
-  const post = resPost.data;
+  try {
+    // Fetch post details
+    const { id } = query;
+    const resPost = await axios.get(`posts/${id}`);
+    const post = resPost.data;
 
-  const resComments = await axios.get(`comments/?post_id=${id}`);
-  const comments = resComments.data;
+    // Fetch comments for the post
+    const commentsResponse = await axios.get<Comment[]>(
+      `comments/?post_id=${id}`
+    );
 
-  return {
-    props: {
-      post,
-      comments,
-    },
-  };
+    const comments = commentsResponse.data;
+
+    return {
+      props: {
+        post,
+        comments,
+      },
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return {
+      notFound: true, // or handle the error in another way
+    };
+  }
 };

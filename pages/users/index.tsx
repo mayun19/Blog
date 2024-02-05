@@ -1,9 +1,19 @@
 import Layout from "@/components/Layout";
-import { Users, UsersProps } from "@/utils/types";
+import { Users } from "@/utils/types";
 import axios from "axios";
-import { GetServerSideProps } from "next";
+import { useEffect, useState } from "react";
 
-const Users = ({ users }: UsersProps) => {
+const Users = () => {
+    const [users, setUsers] = useState<Users[]>([]);
+
+    useEffect(() => {
+      const fetchUsers = async () => {
+        const fetchedPosts = await getUsers();
+        setUsers(fetchedPosts);
+      };
+
+      fetchUsers();
+    }, []);
   return (
     <Layout pageTitle="Users">
       <div className="flex w-full h-full flex-col items-center justify-between lg:p-24 px-6 py-4 gap-6 md:gap-12">
@@ -48,24 +58,6 @@ const Users = ({ users }: UsersProps) => {
               ))}
             </tbody>
           </table>
-          {/* <table className="text-left w-full">
-            <thead className="bg-black flex text-white w-full">
-              <tr className="flex w-full mb-4">
-                <th className="p-4 w-1/4">One</th>
-                <th className="p-4 w-1/4">Two</th>
-                <th className="p-4 w-1/4">Three</th>
-                <th className="p-4 w-1/4">Four</th>
-              </tr>
-            </thead>
-            <tbody className="bg-grey-light flex flex-col items-center justify-between overflow-y-scroll w-full">
-              <tr className="flex w-full mb-4">
-                <td className="p-4 w-1/4">Dogs</td>
-                <td className="p-4 w-1/4">Cats</td>
-                <td className="p-4 w-1/4">Birds</td>
-                <td className="p-4 w-1/4">Fish</td>
-              </tr>
-            </tbody>
-          </table> */}
         </div>
       </div>
     </Layout>
@@ -74,13 +66,12 @@ const Users = ({ users }: UsersProps) => {
 
 export default Users;
 
-export const getServerSideProps: GetServerSideProps = async () => {
-  const response = await axios.get(`users`);
-  const users = response.data;
-
-  return {
-    props: {
-      users,
-    },
-  };
+export async function getUsers(): Promise<Users[]> {
+  try {
+    const response = await axios.get(`users`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    return [];
+  }
 };

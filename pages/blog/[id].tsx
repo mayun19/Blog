@@ -1,4 +1,4 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import axios from "axios";
 import Layout from "@/components/Layout";
 import { PostDetailProps } from "@/utils/types";

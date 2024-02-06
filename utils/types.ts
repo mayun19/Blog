@@ -16,7 +16,7 @@ export type PostProps = {
 };
 
 export type UsersProps = {
-  users: Users[];
+  userById: Users;
 };
 
 export type Users = {
@@ -34,4 +34,8 @@ export type TPostCardProps = {
 export type PostDetailProps = {
   post: Post;
   comments: Comment[];
+};
+
+export type UserDetailProps = {
+  userById: Users;
 };

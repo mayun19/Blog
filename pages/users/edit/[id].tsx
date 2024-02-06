@@ -103,7 +103,7 @@ export const getStaticProps: GetStaticProps = async ({ params }: any) => {
 
   try {
     const resUser = await axios.get(
-      `users/${id}`
+      `https://gorest.co.in/public/v2/users/${id}`
     );
     const userById = resUser.data;
 
